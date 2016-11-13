@@ -5,6 +5,9 @@
 #include <random>
 #include <vector>
 
+class Player;
+class Monster;
+
 namespace 
 {
 	std::random_device rd;
@@ -40,9 +43,11 @@ class Dungeon
 public:
 	enum class Tile
 	{
-		Unused = ' ',
-		Floor = '.',
+		Unused = '.',
+		Floor = ' ',
 		Wall = '#',
+		Player = 'P',
+		Monster = 'M',
 	};
 
 	enum class Direction
@@ -61,6 +66,9 @@ private:
 	std::vector<Rect> _exits;
 
 public:
+	Tile hidedTileByPlayer = Tile::Floor;
+	Tile hidedTileByMonster = Tile::Floor;
+
 	Dungeon(int width, int height);
 
 	Tile getTile(int x, int y) const;
@@ -68,6 +76,9 @@ public:
 
 	void generate(int mixFeatures);
 	void print();
+
+	bool placePlayer(Player& p);
+	bool placeMonster(Monster& m);
 
 private:
 	bool createFeature();
@@ -77,8 +88,8 @@ private:
 	//bool makeCorridor(int x, int y, Direction dir);
 
 	bool placeRect(const Rect& rect, Tile tile);
-	//bool placeObject(Tile tile);
-	//bool placeObject(Tile tile, int& x, int& y);
+	bool placeObject(Tile tile);
+	bool placeObject(Tile tile, int& x, int& y);
 };
 
 #endif

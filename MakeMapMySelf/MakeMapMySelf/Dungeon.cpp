@@ -1,4 +1,6 @@
 #include "Dungeon.h"
+#include "Player.h"
+#include "Monster.h"
 
 Dungeon::Dungeon(int width, int height)	// 멤버 이니셜라이저를 통한 변수들 초기화
 	:_width(width)
@@ -279,7 +281,7 @@ bool Dungeon::placeRect(const Rect& rect, Tile tile)	// 특정 좌표에 tile을 둘 수
 	return true;
 }
 
-/*	-> 후에 player를 구현할 때 사용 될 함수!
+
 bool Dungeon::placeObject(Tile tile)	
 {
 	if (_rooms.empty())
@@ -323,4 +325,27 @@ bool Dungeon::placeObject(Tile tile, int& _x, int& _y)
 
 	return false;
 }
-*/
+
+bool Dungeon::placePlayer(Player& p)
+{
+	int x = 0, y = 0;
+	if (placeObject(Tile::Player, x, y))
+	{
+		p.setPosition(x, y);
+		return true;
+	}
+
+	return false;
+}
+
+bool Dungeon::placeMonster(Monster& m)
+{
+	int x = 1, y = 0;
+	if (placeObject(Tile::Monster, x, y))
+	{
+		m.setPosition(x, y);
+		return true;
+	}
+
+	return false;
+}
